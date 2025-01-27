@@ -31,7 +31,7 @@ This repository contains the backend code for a blog platform, built using **Nod
    ```bash
    npm start
    ```
-   The server will run at `http://localhost:5000` by default.
+   The server will run at `http://localhost:4000` by default.
 
 ## API Endpoints
 
