@@ -70,7 +70,7 @@ This repository contains the backend code for a blog platform, built using **Nod
   ```json
   {
     "postID": "<Post ID>",
-    "username" : <USERNAME>,
+    "username" : "<USERNAME>",
     "yourComment": "Comment content"
   }
   ```
