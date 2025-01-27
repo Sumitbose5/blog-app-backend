@@ -1,0 +1,49 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE-specific files
+.vscode/
+.idea/
+*.swp
+
+# Build files
+dist/
+build/
+coverage/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Package lock files (optional, depending on your preference)
+package-lock.json
+yarn.lock
+
+# Testing
+jest-cache/
+.nyc_output/
+coverage/
+
+# Ignore local environment configurations
+*.local
+
+# Miscellaneous
+*.bak
+*.orig
