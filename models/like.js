@@ -13,7 +13,13 @@ const likeSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required : true,
         ref: "Users"
-    }]
+    }],
+
+    likeCount : {
+        type : Number,
+        default : 0,
+        required : true
+    }
 })
 
 // export the schema

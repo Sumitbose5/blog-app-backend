@@ -19,20 +19,28 @@ exports.likePost = async(req, res) => {
         }
 
         const findPostInLike = await Like.find({"post" : postID});
-        // no posts have been liked yet (first like in the post)
+        // first like in the post
         if(findPostInLike.length === 0){
             // create a new like obj
             const newLikeObj = new Like({
                 "post" : postID,
-                "users" : [userID]
+                "users" : [userID],
+                "likeCount" : 1
             })
             // save this obj in the Like DB
             await newLikeObj.save();
 
-            console.log(newLikeObj);
+            // console.log("New Like Object", newLikeObj);
 
             // update the likes in the Post DB
-            const updateLikesInPostDB = await Post.findByIdAndUpdate(postID, {$push : {likes : newLikeObj.users}}, {new : true});
+            const updateLikesInPostDB = await Post.findByIdAndUpdate(
+                postID, 
+                {
+                    $push: { likes: newLikeObj.users }, // Push new user into 'likes' array
+                    $inc: { likeCount: newLikeObj.users.length } // Increment 'likeCount' by the number of new users
+                },
+                { new: true }
+            );
 
             // send the response
             return res.status(200).json({
@@ -53,10 +61,24 @@ exports.likePost = async(req, res) => {
                 const likeObjLoc = await Like.findOne({"post" : postID});
         
                 // update the users's array by appending the newuser (userID) in it
-                const updateUserLiked = await Like.findByIdAndUpdate(likeObjLoc._id, {$push : {users : userID}}, {new : true});
+                const updateUserLiked = await Like.findByIdAndUpdate(likeObjLoc._id,
+                    {
+                        $push : {users : userID},
+                        $inc : {likeCount : 1}
+                    }, 
+                    {new : true});
+                    
+                // console.log("Update User Liked", updateUserLiked);
 
                 // update the post DB 
-                const updateLikesInPostDB = await Post.findByIdAndUpdate(postID, {$push : {likes : updateUserLiked._id}}, {new : true});
+                const lastInd = updateUserLiked.users.length - 1;
+                const updateLikesInPostDB = await Post.findByIdAndUpdate(postID, 
+                    {
+                        $push : { likes : updateUserLiked.users[lastInd] },
+                        $set: { likeCount: updateUserLiked.likeCount }
+                    }, 
+                    {new : true}
+                );
 
                 // return the response
                 return res.status(200).json({

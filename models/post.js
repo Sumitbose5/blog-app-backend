@@ -23,6 +23,12 @@ const blogSchema = new mongoose.Schema({
         ref : "Like",
     }],
 
+    likeCount : {
+        type : Number,
+        default : 0,
+        required : true
+    },
+
     comments : [{
         type : mongoose.Schema.Types.ObjectId,
         ref : "Comment",
