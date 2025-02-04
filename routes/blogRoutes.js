@@ -4,7 +4,7 @@ const router = express.Router();
 // import controller
 const { createPost, getPosts, getPostsByUsername } = require("../controllers/postController")
 const { createComment } = require("../controllers/commentController");
-const { likePost } = require("../controllers/likesController");
+const { likePost, unlikePost } = require("../controllers/likesController");
 const { createUser } = require("../controllers/userController")
 
 // define API routes
@@ -19,6 +19,9 @@ router.get("/getPosts/:username", getPostsByUsername);
 
 // Like Post
 router.post("/likes/like", likePost);
+
+// Unlike Post
+router.post("/likes/unlike/:id", unlikePost);
 
 // Comment on Post
 router.post("/comment/create", createComment);

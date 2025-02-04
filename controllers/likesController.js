@@ -67,7 +67,7 @@ exports.likePost = async(req, res) => {
                         $inc : {likeCount : 1}
                     }, 
                     {new : true});
-                    
+
                 // console.log("Update User Liked", updateUserLiked);
 
                 // update the post DB 
@@ -98,6 +98,67 @@ exports.likePost = async(req, res) => {
         console.log(err);
         res.status(500).json({
             success : false,
+            message : err.message
+        })
+    }
+}
+
+
+
+exports.unlikePost = async(req, res) => {
+    try{
+        const postID = req.params.id;
+        const { userID } = req.body;
+        const findPost = await Post.findById({_id : postID});
+
+        if(findPost.length === 0){
+            return res.status(404).json({
+                message : "Post not found"
+            })
+        }
+
+        const likeID = await Like.find({post : postID});
+        console.log("Like ID : ", likeID);
+
+        // Check if there is a like of the user in the likes array or not
+        const checkLike = await Like.findOne({users : userID});
+        // if user is not present in the users array it means he/she have already unliked the post
+        if(!checkLike){
+            return res.status(404).json({
+                message : "User have already unliked the post"
+            })
+        }
+
+        const updateLike = await Like.findOneAndUpdate(
+            {_id : likeID}, 
+            {
+                $pull : {users : userID},
+                $inc : {likeCount : -1}
+            },
+            {new : true}
+        ); 
+
+        console.log("Update Like to Unlike : ", updateLike);
+
+        const updatePost = await Post.findByIdAndUpdate(postID, 
+            {
+                $set : {
+                    likes : updateLike._id,
+                    likeCount : updateLike.likeCount
+                }
+            },
+            {new : true}
+        );
+
+        console.log("Updated Post : ", updatePost)
+
+        res.status(200).json({
+            updatedLike : updatePost
+        })
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).json({
             message : err.message
         })
     }
