@@ -71,7 +71,7 @@ This repository contains the backend code for a blog platform, built using **Nod
   {
     "postID": "<Post ID>",
     "username" : "<USERNAME>",
-    "yourComment": "Comment content"
+    "myComment": "Comment content"
   }
   ```
 
@@ -85,6 +85,17 @@ This repository contains the backend code for a blog platform, built using **Nod
   ```json
   {
     "postID": "<Post ID>",
+    "userID": "<User ID>"
+  }
+  ```
+
+#### Unlike a Post
+- **Endpoint:** `/likes/unlike/:id` Here id is Post's ID
+- **Method:** `POST`
+- **Description:** Unlikes a post .
+- **Request Body:**
+  ```json
+  {
     "userID": "<User ID>"
   }
   ```
