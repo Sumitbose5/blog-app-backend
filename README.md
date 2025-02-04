@@ -89,6 +89,17 @@ This repository contains the backend code for a blog platform, built using **Nod
   }
   ```
 
+#### Unlike a Post
+- **Endpoint:** `/likes/unlike/:id` Here id is Post's ID
+- **Method:** `POST`
+- **Description:** Unlikes a post .
+- **Request Body:**
+  ```json
+  {
+    "userID": "<User ID>"
+  }
+  ```
+
 ### **User Routes**
 
 #### Create a User
